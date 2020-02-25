@@ -1,0 +1,28 @@
+{
+  "name": "md-to-google-ssml",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -w",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yambal/md-to-google-ssml.git"
+  },
+  "author": "June YAMAMOTO <jy@yambal.net> (https://www.yambal.net/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yambal/md-to-google-ssml/issues"
+  },
+  "homepage": "https://github.com/yambal/md-to-google-ssml#readme",
+  "dependencies": {
+    "marked": "^0.8.0",
+    "pretty-data": "^0.40.0"
+  },
+  "devDependencies": {
+    "@types/marked": "^0.7.2",
+    "typescript": "^3.8.2"
+  }
+}
