@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const marked_1 = __importDefault(require("marked"));
 const ssmlMarked_1 = require("./ssmlMarked");
 exports.markdownToSsml = (markdown, options) => {
     const defaultOptions = {
@@ -20,11 +16,11 @@ exports.markdownToSsml = (markdown, options) => {
             return splitMarkdown.replace(/[\r\n\s　]/, '').length !== 0;
         });
     }
-    setting.debug && console.log(splitMarkdowns);
+    setting.debug && console.log('debug 28', splitMarkdowns);
+    // SSML に 変換する
     const splitSsml = splitMarkdowns.map((markdown, index) => {
-        return parser(markdown, index);
+        return parser(markdown);
     });
-    setting.debug && console.log(splitSsml);
-    const ssmlRenderer = new marked_1.default.Renderer();
-    // const parsed = marked(markdown, { renderer: renderer })
+    setting.debug && console.log('debug 36', splitSsml);
+    return splitSsml;
 };

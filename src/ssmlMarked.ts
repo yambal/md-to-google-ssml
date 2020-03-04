@@ -2,16 +2,7 @@ import marked, { Slugger } from 'marked'
 import prettyData from 'pretty-data'
 import { getThemeElm, tThemeName, iAudio } from './theme'
 
-// ID =============================================
-const makeId = (length: number, index?: number) => {
-  var S="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  let prefix = ''
-  if (typeof index !== 'undefined' && index >= 0) {
-    prefix = S.substr(index % S.length, 1)
-  }
-  const base = Array.from(Array(length)).map(()=>S[Math.floor(Math.random()*S.length)]).join('') + prefix
-  return base.slice(-length)
-}
+
 
 /**
  * 
@@ -20,7 +11,7 @@ interface iSsmlMarked {
   themeName?: tThemeName
 }
 
-export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string, index: number) => string => {
+export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string) => string => {
   const defaultOptions: iSsmlMarked = {
     themeName: 'default'
   }
@@ -28,22 +19,39 @@ export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string, index: num
 
   const ssmlRenderer = new marked.Renderer()
 
-  let ssmlIndex: number
+  let idIndex = 0
+  let ssmlIndex: number = 0
   let boxElementId: string = ''
   let bgmAudio: iAudio | null = null
 
+  // ID =============================================
+  const makeId = (length: number, index?: number) => {
+    var S="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    
+    let prefixA = ''
+    if (typeof index !== 'undefined' && index >= 0) {
+      prefixA = S.substr(index % S.length, 1)
+    }
+
+    const prefixB = S.substr(idIndex % S.length, 1)
+    idIndex++
+
+    const base = Array.from(Array(length)).map(()=>S[Math.floor(Math.random()*S.length)]).join('') + prefixA + prefixB
+    return base.slice(-length)
+  }
+
   // BGM =============================================
   // 
-  const getBgmStartElm = (audio: iAudio) => {
+  const getBgmStartElm = (elementName: string) => {
     const closer = getBgmEndElm()
-    boxElementId = makeId(3, ssmlIndex)
-    bgmAudio = audio
-    return `${closer}<par><media xml:id="${boxElementId}">`
+    boxElementId = makeId(4, ssmlIndex)
+    bgmAudio = getElementAudio(elementName)
+    return `${closer}<par><media xml:id="${boxElementId}" begin="${bgmAudio.begin}">`
   }
 
   const getBgmEndElm = ():string => {
     if (!!boxElementId.length && bgmAudio) {
-      const closer = `</media><media begin="${bgmAudio.begin}" end="${boxElementId}.eng${bgmAudio.end}"><audio url="${bgmAudio.url}" /></media></par>`
+      const closer = `</media><media end="${boxElementId}.end${bgmAudio.end}" fadeOutDur="${bgmAudio.fadeOut}"><audio src="${bgmAudio.url}" /></media></par>`
       boxElementId = ''
       bgmAudio = null
       return closer
@@ -51,30 +59,33 @@ export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string, index: num
     return ''
   }
 
-  const getBgmStartElmIfNoBgm = (audio: iAudio) => {
+  const getBgmStartElmIfNoBgm = (elementName: string) => {
     if (!boxElementId.length && !bgmAudio) {
-      return getBgmStartElm(audio)
+      return getBgmStartElm(elementName)
     }
     return ''
   }
 
+  const getElementAudio = (elementName: string) => {
+    const audios = getThemeElm(elementName, setting.themeName).audios
+    const audio = audios[ssmlIndex % audios.length]
+    return audio
+  }
+
   // block =============================================
   ssmlRenderer.heading = (text: String, leval: Number, raw: String, slugger: Slugger) => {
-    const audio = getThemeElm('header', setting.themeName).audio
-    return `${getBgmStartElm(audio[0])}<p>${text}</p>${getBgmEndElm()}` //${getBgmStartElm('section.mp3')}`
+    return `${getBgmStartElm('heading')}<p>${text}</p>${getBgmEndElm()}`
   }
 
   ssmlRenderer.blockquote = (text: string) => {
-    const audio = getThemeElm('blockquote', setting.themeName).audio
-    return `${getBgmStartElm(audio[0])}<p>${text}</p>${getBgmEndElm()}`
+    return `${getBgmStartElm('blockquote')}<p>${text}</p>${getBgmEndElm()}`
   }
 
   // P
   ssmlRenderer.paragraph = (text: string) => {
     // BGM が設定されていなければ BGM を開始する
     // BGM が設定されていれば何も（閉じも）しない
-    const audio = getThemeElm('paragraph', setting.themeName).audio
-    return `${getBgmStartElmIfNoBgm(audio[0])}<p><s>${text}</s></p>`
+    return `${getBgmStartElmIfNoBgm('paragraph')}<p><s>${text}</s></p>`
   }
 
   // inline =============================================
@@ -93,14 +104,14 @@ export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string, index: num
     return `</s><s>${text}</s><s>`
   }
 
-  return (markdown: string, index?: number) => {
-    ssmlIndex = typeof index !== 'undefined' ? index : -1
+  return (markdown: string) => {
+    idIndex = 0
     boxElementId = ''
 
     let persed = marked(markdown, { renderer: ssmlRenderer }).replace(/<s><\/s>/g, '')
-    persed = `${persed}${getBgmEndElm()}`
-    
-    ssmlIndex = -1
+    persed = `<speak>${persed}${getBgmEndElm()}</speak>`
+
+    ssmlIndex ++
     boxElementId = ''
 
     return prettyData.pd.xmlmin(persed, true)

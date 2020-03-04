@@ -6,7 +6,7 @@ export interface iMarkdownToSsmlOptions {
   split?: boolean
 }
 
-export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOptions) => {
+export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOptions): string[] => {
   const defaultOptions = {
     debug: false,
     split: true
@@ -25,17 +25,15 @@ export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOption
       }
     )
   }
-  setting.debug && console.log(splitMarkdowns)
+  setting.debug && console.log('debug 28', splitMarkdowns)
 
+  // SSML に 変換する
   const splitSsml = splitMarkdowns.map(
     (markdown, index) => {
-      return parser(markdown, index)
+      return parser(markdown)
     }
   )
-  setting.debug && console.log(splitSsml)
+  setting.debug && console.log('debug 36', splitSsml)
 
-
-  const ssmlRenderer = new marked.Renderer()
-  // const parsed = marked(markdown, { renderer: renderer })
-
+  return splitSsml
 }

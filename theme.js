@@ -2,30 +2,51 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const buildinTheme = {
     default: {
-        header: {
-            audio: [
+        heading: {
+            audios: [
                 {
-                    url: 'hedaer.mp3',
-                    begin: '0s',
-                    end: '+2s'
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Jazz-P-M-01.mp3',
+                    begin: '2s',
+                    end: '+3s',
+                    fadeOut: '3s'
                 }
             ]
         },
         blockquote: {
-            audio: [
+            audios: [
                 {
-                    url: 'blockquote.mp3',
-                    begin: '0s',
-                    end: '+2s'
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Jazz-P-M-01.mp3',
+                    begin: '2s',
+                    end: '+3s',
+                    fadeOut: '3s'
                 }
             ]
         },
         paragraph: {
-            audio: [
+            audios: [
                 {
-                    url: 'paragraph.mp3',
-                    begin: '0s',
-                    end: '+2s'
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Jazz-P-M-01.mp3',
+                    begin: '2s',
+                    end: '+3s',
+                    fadeOut: '3s'
+                },
+                {
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Jazz-P-M-02.mp3',
+                    begin: '2s',
+                    end: '+3s',
+                    fadeOut: '3s'
+                },
+                {
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Jazz-P-M-03.mp3',
+                    begin: '2s',
+                    end: '+3s',
+                    fadeOut: '3s'
+                },
+                {
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Jazz-P-M-04.mp3',
+                    begin: '2s',
+                    end: '+3s',
+                    fadeOut: '3s'
                 }
             ]
         }

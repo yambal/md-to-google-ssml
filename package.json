@@ -18,8 +18,18 @@
   },
   "homepage": "https://github.com/yambal/md-to-google-ssml#readme",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "@google-cloud/text-to-speech": "^2.2.0",
+    "@types/mkdirp": "^1.0.0",
+    "@types/uuid": "^7.0.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "iconv-lite": "^0.5.1",
+    "id3-parser": "^2.0.0",
     "marked": "^0.8.0",
-    "pretty-data": "^0.40.0"
+    "mkdirp": "^1.0.3",
+    "music-metadata": "^6.3.4",
+    "pretty-data": "^0.40.0",
+    "uuid": "^7.0.1"
   },
   "devDependencies": {
     "@types/marked": "^0.7.2",

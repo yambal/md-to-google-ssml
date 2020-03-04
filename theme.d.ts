@@ -3,9 +3,10 @@ export interface iAudio {
     url: string;
     begin: string;
     end: string;
+    fadeOut: string;
 }
 interface iThemeElm {
-    audio: iAudio[];
+    audios: iAudio[];
 }
 export declare const getThemeElm: (elem: string, themeName?: "default" | undefined) => iThemeElm;
 export {};
