@@ -7,14 +7,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const markdownToSsml_1 = require("./markdownToSsml");
-const googleTextToSpeech_1 = require("./googleTextToSpeech");
+const markdownToSsml_1 = require("./libs/markdownToSsml/markdownToSsml");
+const googleTextToSpeech_1 = require("./libs/googleTextToSpeech");
 const fs = __importStar(require("fs"));
-const mkdirp_then_1 = require("./mkdirp-then");
+const mkdirp_then_1 = require("./libs/mkdirp-then");
 const uuid_1 = require("uuid");
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const FfmpegCommand = require('fluent-ffmpeg');
-const tempDir = '/.test';
 const cacheSave = (audio, dir) => {
     return new Promise((resolve, reject) => {
         mkdirp_then_1.mkdirpThen(dir)
@@ -30,10 +29,11 @@ const cacheSave = (audio, dir) => {
         });
     });
 };
-const cacheDelete = (path) => {
+const cacheDelete = (path, debug) => {
     return new Promise((resolve, reject) => {
         try {
             fs.unlinkSync(path);
+            debug && console.log(`delete cache file ${path}`);
             resolve();
         }
         catch (error) {
@@ -43,34 +43,39 @@ const cacheDelete = (path) => {
 };
 exports.mdToMp3 = (markdown, option) => {
     const defaultOption = {
+        projectId: '',
+        keyFileName: '',
         tempDir: '.test'
     };
     const setting = Object.assign({}, defaultOption, option);
     const ssmls = markdownToSsml_1.markdownToSsml(markdown, option);
     const projectTempPath = `${process.cwd()}/${setting.tempDir}`;
-    googleTextToSpeech_1.googleTextToSpeech(ssmls, 'texttospeach-261314', 'TextToSpeach-e373fcafd2ef.json')
-        .then((audioContents) => {
-        Promise.all(audioContents.map((audioContent) => {
-            return cacheSave(audioContent, projectTempPath);
-        })).then((paths) => {
-            const tempComcatPath = `${projectTempPath}/${uuid_1.v4()}.mp3`;
-            var filter = 'concat:' + paths.join('|');
-            const command = new FfmpegCommand();
-            command
-                .setFfmpegPath(ffmpegPath)
-                .input(filter)
-                .outputOptions('-acodec copy')
-                .on('end', () => {
-                const buf = fs.readFileSync(tempComcatPath);
-                paths.push(tempComcatPath);
-                setting.debug && console.log(buf);
-                Promise.all(paths.map((path) => {
-                    cacheDelete(path);
-                })).then(() => {
-                    console.log(79);
+    return new Promise((resolve, reject) => {
+        googleTextToSpeech_1.googleTextToSpeech(ssmls, setting.projectId, setting.keyFileName)
+            .then((audioContents) => {
+            Promise.all(audioContents.map((audioContent) => {
+                return cacheSave(audioContent, projectTempPath);
+            })).then((paths) => {
+                const tempComcatPath = `${projectTempPath}/${uuid_1.v4()}.mp3`;
+                var filter = 'concat:' + paths.join('|');
+                const command = new FfmpegCommand();
+                command
+                    .setFfmpegPath(ffmpegPath)
+                    .input(filter)
+                    .outputOptions('-acodec copy')
+                    .on('end', () => {
+                    setting.debug && console.log('concated audios');
+                    const buf = fs.readFileSync(tempComcatPath);
+                    paths.push(tempComcatPath);
+                    Promise.all(paths.map((path) => {
+                        cacheDelete(path, setting.debug);
+                    })).then(() => {
+                        setting.debug && console.log('resolve');
+                        resolve(buf);
+                    });
                 });
+                command.save(tempComcatPath);
             });
-            command.save(tempComcatPath);
         });
     });
 };

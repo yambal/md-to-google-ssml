@@ -26,5 +26,9 @@ efgh
 けふこえて
 
 `, {
+    projectId: 'texttospeach-261314',
+    keyFileName: 'TextToSpeach-e373fcafd2ef.json',
     debug: true
+}).then((audio) => {
+    console.log('result', audio);
 });
