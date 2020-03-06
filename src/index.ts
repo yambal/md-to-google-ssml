@@ -50,7 +50,7 @@ export const mdToMp3 = (markdown: string, option: iMdToMp3) => {
   const defaultOption:iMdToMp3 = {
     projectId: '',
     keyFileName: '',
-    tempDir: '.test'
+    tempDir: '.mdToMp3Temp'
   }
   const setting:iMdToMp3 = Object.assign({}, defaultOption, option)
 
@@ -79,7 +79,7 @@ export const mdToMp3 = (markdown: string, option: iMdToMp3) => {
                 .on('end', () => {
                   setting.debug && console.log('concated audios')
                   const buf = fs.readFileSync(tempComcatPath)
-                  paths.push(tempComcatPath)
+                  // paths.push(tempComcatPath)
                   Promise.all(
                     paths.map(
                       (path) => {

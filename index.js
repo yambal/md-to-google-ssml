@@ -45,7 +45,7 @@ exports.mdToMp3 = (markdown, option) => {
     const defaultOption = {
         projectId: '',
         keyFileName: '',
-        tempDir: '.test'
+        tempDir: '.mdToMp3Temp'
     };
     const setting = Object.assign({}, defaultOption, option);
     const ssmls = markdownToSsml_1.markdownToSsml(markdown, option);
@@ -66,7 +66,7 @@ exports.mdToMp3 = (markdown, option) => {
                     .on('end', () => {
                     setting.debug && console.log('concated audios');
                     const buf = fs.readFileSync(tempComcatPath);
-                    paths.push(tempComcatPath);
+                    // paths.push(tempComcatPath)
                     Promise.all(paths.map((path) => {
                         cacheDelete(path, setting.debug);
                     })).then(() => {

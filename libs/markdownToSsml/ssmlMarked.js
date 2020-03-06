@@ -51,9 +51,13 @@ exports.ssmlMarked = (options) => {
         }
         return '';
     };
-    const getElementAudio = (elementName) => {
+    const getElementAudio = (elementName, isRandom) => {
         const audios = theme_1.getThemeElm(elementName, setting.themeName).audios;
-        const audio = audios[ssmlIndex % audios.length];
+        let i = ssmlIndex;
+        if (isRandom) {
+            i = Math.floor(Math.random() * (100 - audios.length)) + audios.length;
+        }
+        const audio = audios[i % audios.length];
         return audio;
     };
     // block =============================================
@@ -82,13 +86,39 @@ exports.ssmlMarked = (options) => {
     ssmlRenderer.em = function (text) {
         return `</s><s>${text}</s><s>`;
     };
-    return (markdown) => {
-        idIndex = 0;
-        boxElementId = '';
-        let persed = marked_1.default(markdown, { renderer: ssmlRenderer }).replace(/<s><\/s>/g, '');
-        persed = `<speak>${persed}${getBgmEndElm()}</speak>`;
-        ssmlIndex++;
-        boxElementId = '';
-        return pretty_data_1.default.pd.xmlmin(persed, true);
+    return {
+        parse: (markdown) => {
+            idIndex = 0;
+            boxElementId = '';
+            let persed = marked_1.default(markdown, { renderer: ssmlRenderer }).replace(/<s><\/s>/g, '');
+            persed = `<speak>${persed}${getBgmEndElm()}</speak>`;
+            ssmlIndex++;
+            boxElementId = '';
+            return pretty_data_1.default.pd.xmlmin(persed, true);
+        },
+        buildHeader: (title, description) => {
+            if (title || description) {
+                boxElementId = makeId(4, ssmlIndex);
+                const audio = getElementAudio('opening', true);
+                let ssml = `<speak>`
+                    + `<par>`
+                    + `<media xml:id="${boxElementId}" begin="${audio.begin}">`;
+                if (title && title.length !== 0) {
+                    ssml += `<p>${title}</p>`;
+                }
+                if (title && title.length !== 0 && description && description.length !== 0) {
+                    ssml += `<break time="3s"/>`;
+                }
+                if (description && description.length !== 0) {
+                    ssml += `<p>${description}</p>`;
+                }
+                ssml += `</media>`;
+                ssml += `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
+                    + `</par>`
+                    + `</speak>`;
+                return ssml;
+            }
+            return null;
+        }
     };
 };

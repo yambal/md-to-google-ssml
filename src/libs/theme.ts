@@ -14,6 +14,34 @@ interface iThemes {[key:string]: iTheme}
 
 const buildinTheme:iThemes  = {
   default: {
+    opening: {
+      audios:[
+        {
+          url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-01.mp3',
+          begin: '8s',
+          end: '+8s',
+          fadeOut: '3s'
+        },
+        {
+          url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-02.mp3',
+          begin: '4s',
+          end: '+3s',
+          fadeOut: '3s'
+        },
+        {
+          url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-03.mp3',
+          begin: '4s',
+          end: '+3s',
+          fadeOut: '3s'
+        },
+        {
+          url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-04.mp3',
+          begin: '4s',
+          end: '+3s',
+          fadeOut: '3s'
+        }
+      ]
+    },
     heading: {
       audios: [
         {

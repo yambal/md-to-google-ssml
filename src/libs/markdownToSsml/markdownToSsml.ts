@@ -4,12 +4,14 @@ import { ssmlMarked } from './ssmlMarked'
 export interface iMarkdownToSsmlOptions {
   debug?: boolean
   split?: boolean
+  title?: string
+  description?: string
 }
 
 export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOptions): string[] => {
   const defaultOptions = {
     debug: false,
-    split: true
+    split: true,
   }
   const setting = Object.assign(defaultOptions, options)
 
@@ -30,9 +32,13 @@ export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOption
   // SSML に 変換する
   const splitSsml = splitMarkdowns.map(
     (markdown, index) => {
-      return parser(markdown)
+      return parser.parse(markdown)
     }
   )
+
+  const headerSsml = parser.buildHeader(setting.title, setting.description)
+  headerSsml && splitSsml.unshift(headerSsml)
+
   setting.debug && console.log('debug 36', splitSsml)
 
   return splitSsml

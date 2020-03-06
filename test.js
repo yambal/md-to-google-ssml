@@ -28,7 +28,8 @@ efgh
 `, {
     projectId: 'texttospeach-261314',
     keyFileName: 'TextToSpeach-e373fcafd2ef.json',
-    debug: true
+    debug: true,
+    title: 'テスト'
 }).then((audio) => {
     console.log('result', audio);
 });

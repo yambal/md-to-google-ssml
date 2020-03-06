@@ -2,8 +2,6 @@ import marked, { Slugger } from 'marked'
 import prettyData from 'pretty-data'
 import { getThemeElm, tThemeName, iAudio } from '../theme'
 
-
-
 /**
  * 
  */
@@ -11,7 +9,12 @@ interface iSsmlMarked {
   themeName?: tThemeName
 }
 
-export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string) => string => {
+interface iSsmlMarkedMethod {
+  parse: (matkdown: string) => string
+  buildHeader: (title?: string, description?: string) => string | null
+}
+
+export const ssmlMarked = (options? :iSsmlMarked): iSsmlMarkedMethod => {
   const defaultOptions: iSsmlMarked = {
     themeName: 'default'
   }
@@ -66,9 +69,13 @@ export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string) => string 
     return ''
   }
 
-  const getElementAudio = (elementName: string) => {
+  const getElementAudio = (elementName: string, isRandom?: boolean) => {
     const audios = getThemeElm(elementName, setting.themeName).audios
-    const audio = audios[ssmlIndex % audios.length]
+    let i = ssmlIndex
+    if (isRandom) {
+      i = Math.floor( Math.random() * (100 - audios.length) ) + audios.length ;
+    }
+    const audio = audios[i % audios.length]
     return audio
   }
 
@@ -104,16 +111,46 @@ export const ssmlMarked = (options? :iSsmlMarked): (matkdown: string) => string 
     return `</s><s>${text}</s><s>`
   }
 
-  return (markdown: string) => {
-    idIndex = 0
-    boxElementId = ''
+  return {
+    parse: (markdown: string) => {
+      idIndex = 0
+      boxElementId = ''
 
-    let persed = marked(markdown, { renderer: ssmlRenderer }).replace(/<s><\/s>/g, '')
-    persed = `<speak>${persed}${getBgmEndElm()}</speak>`
+      let persed = marked(markdown, { renderer: ssmlRenderer }).replace(/<s><\/s>/g, '')
+      persed = `<speak>${persed}${getBgmEndElm()}</speak>`
 
-    ssmlIndex ++
-    boxElementId = ''
+      ssmlIndex ++
+      boxElementId = ''
 
-    return prettyData.pd.xmlmin(persed, true)
+      return prettyData.pd.xmlmin(persed, true)
+    },
+    buildHeader: (title?: string, description?: string) => {
+      if (title || description) {
+        boxElementId = makeId(4, ssmlIndex)
+        const audio = getElementAudio('opening', true)
+
+        let ssml = `<speak>`
+          + `<par>`
+          + `<media xml:id="${boxElementId}" begin="${audio.begin}">`
+        
+        if (title && title.length !== 0) {
+          ssml += `<p>${title}</p>`
+        }
+        if (title && title.length !== 0 && description && description.length !== 0) {
+          ssml += `<break time="3s"/>`
+        }
+        if (description && description.length !== 0) {
+          ssml += `<p>${description}</p>`
+        }
+        ssml += `</media>`
+
+        ssml += `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
+          + `</par>`
+          + `</speak>`
+        
+        return ssml
+      }
+      return null
+    }
   }
 }

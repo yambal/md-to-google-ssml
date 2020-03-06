@@ -4,7 +4,7 @@ const ssmlMarked_1 = require("./ssmlMarked");
 exports.markdownToSsml = (markdown, options) => {
     const defaultOptions = {
         debug: false,
-        split: true
+        split: true,
     };
     const setting = Object.assign(defaultOptions, options);
     const parser = ssmlMarked_1.ssmlMarked();
@@ -19,8 +19,10 @@ exports.markdownToSsml = (markdown, options) => {
     setting.debug && console.log('debug 28', splitMarkdowns);
     // SSML に 変換する
     const splitSsml = splitMarkdowns.map((markdown, index) => {
-        return parser(markdown);
+        return parser.parse(markdown);
     });
+    const headerSsml = parser.buildHeader(setting.title, setting.description);
+    headerSsml && splitSsml.unshift(headerSsml);
     setting.debug && console.log('debug 36', splitSsml);
     return splitSsml;
 };

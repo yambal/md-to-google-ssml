@@ -5,5 +5,9 @@ import { tThemeName } from '../theme';
 interface iSsmlMarked {
     themeName?: tThemeName;
 }
-export declare const ssmlMarked: (options?: iSsmlMarked | undefined) => (matkdown: string) => string;
+interface iSsmlMarkedMethod {
+    parse: (matkdown: string) => string;
+    buildHeader: (title?: string, description?: string) => string | null;
+}
+export declare const ssmlMarked: (options?: iSsmlMarked | undefined) => iSsmlMarkedMethod;
 export {};
