@@ -18,6 +18,10 @@ efgh
 
 かきくけこ
 
+---
+
+さしすせそ
+
 ### Header3
 
 **色**はにおへど  
@@ -29,7 +33,10 @@ efgh
     projectId: 'texttospeach-261314',
     keyFileName: 'TextToSpeach-e373fcafd2ef.json',
     debug: true,
-    title: 'テスト'
+    title: 'タイトル',
+    description: '注釈',
+    subTitle: 'サブ タイトル',
+    subDescription: 'サブ 注釈'
 }).then((audio) => {
     console.log('result', audio);
 });

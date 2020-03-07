@@ -21,7 +21,7 @@ exports.markdownToSsml = (markdown, options) => {
     const splitSsml = splitMarkdowns.map((markdown, index) => {
         return parser.parse(markdown);
     });
-    const headerSsml = parser.buildHeader(setting.title, setting.description);
+    const headerSsml = parser.buildHeader(setting.title, setting.description, setting.subTitle, setting.subDescription);
     headerSsml && splitSsml.unshift(headerSsml);
     setting.debug && console.log('debug 36', splitSsml);
     return splitSsml;

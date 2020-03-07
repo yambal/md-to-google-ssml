@@ -38,7 +38,7 @@ exports.ssmlMarked = (options) => {
     };
     const getBgmEndElm = () => {
         if (!!boxElementId.length && bgmAudio) {
-            const closer = `</media><media end="${boxElementId}.end${bgmAudio.end}" fadeOutDur="${bgmAudio.fadeOut}"><audio src="${bgmAudio.url}" /></media></par>`;
+            const closer = `</media><media end="${boxElementId}.end${bgmAudio.end}" fadeOutDur="${bgmAudio.fadeOut}" repeatCount="99" ><audio src="${bgmAudio.url}" /></media></par>`;
             boxElementId = '';
             bgmAudio = null;
             return closer;
@@ -73,6 +73,18 @@ exports.ssmlMarked = (options) => {
         // BGM が設定されていれば何も（閉じも）しない
         return `${getBgmStartElmIfNoBgm('paragraph')}<p><s>${text}</s></p>`;
     };
+    ssmlRenderer.hr = () => {
+        console.log(100, 'hr');
+        const audio = getElementAudio('hr');
+        const bgmCloser = getBgmEndElm();
+        boxElementId = makeId(4, ssmlIndex);
+        const ssml = `${bgmCloser}`
+            + `<par>`
+            + `<media xml:id="${boxElementId}" begin="${audio.begin}"><break time="0.25s"/></media>`
+            + `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
+            + `</par>`;
+        return ssml;
+    };
     // inline =============================================
     // BR
     ssmlRenderer.br = function () {
@@ -80,11 +92,11 @@ exports.ssmlMarked = (options) => {
     };
     // Strong
     ssmlRenderer.strong = function (text) {
-        return `</s><s>${text}</s><s>`;
+        return `<break time="0.25s"/><emphasis level="strong"><prosody rate="slow">${text}</prosody></emphasis><break time="0.25s"/>`;
     };
     // EM
     ssmlRenderer.em = function (text) {
-        return `</s><s>${text}</s><s>`;
+        return `<break time="0.25s"/><emphasis level="strong"><prosody rate="slow">${text}</prosody></emphasis><break time="0.25s"/>`;
     };
     return {
         parse: (markdown) => {
@@ -96,25 +108,58 @@ exports.ssmlMarked = (options) => {
             boxElementId = '';
             return pretty_data_1.default.pd.xmlmin(persed, true);
         },
-        buildHeader: (title, description) => {
+        buildHeader: (title, description, subTitle, subDescription) => {
             if (title || description) {
                 boxElementId = makeId(4, ssmlIndex);
                 const audio = getElementAudio('opening', true);
+                const hasTitle = title && title.length !== 0;
+                const hasDescription = description && description.length !== 0;
+                const hasHeader = hasTitle || hasDescription;
+                const hasSubTitle = subTitle && subTitle.length !== 0;
+                const hasSubDescription = subDescription && subDescription.length !== 0;
+                const hasSubHeader = hasSubTitle || hasSubDescription;
                 let ssml = `<speak>`
                     + `<par>`
                     + `<media xml:id="${boxElementId}" begin="${audio.begin}">`;
-                if (title && title.length !== 0) {
-                    ssml += `<p>${title}</p>`;
+                // Title & Description
+                if (hasHeader) {
+                    ssml += `<p>`;
                 }
-                if (title && title.length !== 0 && description && description.length !== 0) {
+                if (hasTitle) {
+                    ssml += `<s><emphasis level="strong"><prosody rate="slow">${title}</prosody></emphasis></s>`;
+                }
+                if (hasTitle && hasDescription) {
+                    ssml += `<break time="2s"/>`;
+                }
+                if (hasDescription) {
+                    ssml += `<s>${description}</s>`;
+                }
+                if (hasHeader) {
+                    ssml += `</p>`;
+                }
+                if (hasHeader && hasSubHeader) {
                     ssml += `<break time="3s"/>`;
                 }
-                if (description && description.length !== 0) {
-                    ssml += `<p>${description}</p>`;
+                // Sub Title & Sub Description
+                if (hasSubHeader) {
+                    ssml += `<p>`;
+                }
+                if (hasSubTitle) {
+                    ssml += `<s><emphasis level="strong"><prosody rate="slow">${subTitle}</prosody></emphasis></s>`;
+                }
+                if (hasSubTitle && hasSubDescription) {
+                    ssml += `<break time="2s"/>`;
+                }
+                if (hasSubDescription) {
+                    ssml += `<s>${subDescription}</s>`;
+                }
+                if (hasSubHeader) {
+                    ssml += `</p>`;
                 }
                 ssml += `</media>`;
                 ssml += `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
                     + `</par>`
+                    + `<break time="2s"/>`
                     + `</speak>`;
                 return ssml;
             }
