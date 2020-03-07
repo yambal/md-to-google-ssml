@@ -5,6 +5,7 @@ export interface iAudio {
     end: string;
     fadeOut: string;
     loop: boolean;
+    soundLevel: string;
 }
 interface iThemeElm {
     audios: iAudio[];

@@ -38,7 +38,9 @@ exports.ssmlMarked = (options) => {
     };
     const getBgmEndElm = () => {
         if (!!boxElementId.length && bgmAudio) {
-            const closer = `</media><media end="${boxElementId}.end${bgmAudio.end}" fadeOutDur="${bgmAudio.fadeOut}" repeatCount="99" ><audio src="${bgmAudio.url}" /></media></par>`;
+            const closer = `</media>`
+                + `<media end="${boxElementId}.end${bgmAudio.end}" fadeOutDur="${bgmAudio.fadeOut}" repeatCount="${bgmAudio.loop ? '99' : '1'}" soundLevel="${bgmAudio.soundLevel}">`
+                + `<audio src="${bgmAudio.url}" /></media></par>`;
             boxElementId = '';
             bgmAudio = null;
             return closer;
@@ -157,7 +159,7 @@ exports.ssmlMarked = (options) => {
                     ssml += `</p>`;
                 }
                 ssml += `</media>`;
-                ssml += `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
+                ssml += `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}" soundLevel="${audio.soundLevel}"><audio src="${audio.url}" /></media>`
                     + `</par>`
                     + `<break time="2s"/>`
                     + `</speak>`;

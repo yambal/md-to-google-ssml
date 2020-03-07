@@ -5,6 +5,7 @@ export interface iAudio {
   end: string
   fadeOut: string
   loop: boolean
+  soundLevel: string
 }
 interface iThemeElm {
   audios: iAudio[]
@@ -22,28 +23,32 @@ const buildinTheme:iThemes  = {
           begin: '8s',
           end: '+8s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-02.mp3',
           begin: '4s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-03.mp3',
           begin: '4s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-04.mp3',
           begin: '4s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         }
       ]
     },
@@ -54,7 +59,8 @@ const buildinTheme:iThemes  = {
         begin: '1s',
         end: '+2s',
         fadeOut: '2s',
-        loop: false
+        loop: false,
+        soundLevel : '+0dB'
         }
       ]
     },
@@ -65,28 +71,32 @@ const buildinTheme:iThemes  = {
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/MChinematic-P-M-02.mp3',
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/MChinematic-P-M-03.mp3',
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/MChinematic-P-M-04.mp3',
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '+0dB'
         }
       ]
     },
@@ -97,28 +107,32 @@ const buildinTheme:iThemes  = {
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '-10dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-A-M-02.mp3',
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '-10dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-A-M-03.mp3',
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '-10dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-A-M-04.mp3',
           begin: '2s',
           end: '+3s',
           fadeOut: '3s',
-          loop: true
+          loop: true,
+          soundLevel : '-10dB'
         }
       ]
     },
@@ -129,7 +143,8 @@ const buildinTheme:iThemes  = {
           begin: '1s',
           end: '+3s',
           fadeOut: '3s',
-          loop: false
+          loop: false,
+          soundLevel : '+0dB'
         }
       ]
     }
