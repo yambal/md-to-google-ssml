@@ -99,11 +99,10 @@ export const ssmlMarked = (options? :iSsmlMarked): iSsmlMarkedMethod => {
   }
 
   ssmlRenderer.hr = () => {
-    console.log(100, 'hr')
     const audio = getElementAudio('hr')
-    const bgmCloser = getBgmEndElm()
+    //const bgmCloser = getBgmEndElm()
     boxElementId = makeId(4, ssmlIndex)
-    const ssml = `${bgmCloser}`
+    const ssml = ``
       + `<par>`
       + `<media xml:id="${boxElementId}" begin="${audio.begin}"><break time="0.25s"/></media>`
       + `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
@@ -115,6 +114,18 @@ export const ssmlMarked = (options? :iSsmlMarked): iSsmlMarkedMethod => {
   // BR
   ssmlRenderer.br = function () {
     return '</s><s>'
+  }
+
+  // LINK
+  ssmlRenderer.link = function (href: string, title: string, text: string) {
+    const audio = getElementAudio('link')
+    boxElementId = makeId(4, ssmlIndex)
+    const ssml = ``
+      + `<par>`
+      + `<media xml:id="${boxElementId}" begin="${audio.begin}">${text}</media>`
+      + `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
+      + `</par>`
+    return ssml
   }
 
   // Strong

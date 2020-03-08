@@ -76,11 +76,10 @@ exports.ssmlMarked = (options) => {
         return `${getBgmStartElmIfNoBgm('paragraph')}<p><s>${text}</s></p>`;
     };
     ssmlRenderer.hr = () => {
-        console.log(100, 'hr');
         const audio = getElementAudio('hr');
-        const bgmCloser = getBgmEndElm();
+        //const bgmCloser = getBgmEndElm()
         boxElementId = makeId(4, ssmlIndex);
-        const ssml = `${bgmCloser}`
+        const ssml = ``
             + `<par>`
             + `<media xml:id="${boxElementId}" begin="${audio.begin}"><break time="0.25s"/></media>`
             + `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
@@ -91,6 +90,17 @@ exports.ssmlMarked = (options) => {
     // BR
     ssmlRenderer.br = function () {
         return '</s><s>';
+    };
+    // LINK
+    ssmlRenderer.link = function (href, title, text) {
+        const audio = getElementAudio('link');
+        boxElementId = makeId(4, ssmlIndex);
+        const ssml = ``
+            + `<par>`
+            + `<media xml:id="${boxElementId}" begin="${audio.begin}">${text}</media>`
+            + `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}"><audio src="${audio.url}" /></media>`
+            + `</par>`;
+        return ssml;
     };
     // Strong
     ssmlRenderer.strong = function (text) {
