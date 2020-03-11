@@ -4,6 +4,8 @@ import { tThemeName } from '../theme';
  */
 interface iSsmlMarked {
     themeName?: tThemeName;
+    paragraphBreak?: string;
+    brBreak?: string;
 }
 interface iSsmlMarkedMethod {
     parse: (matkdown: string) => string;

@@ -66,7 +66,7 @@ exports.mdToMp3 = (markdown, option) => {
                     .on('end', () => {
                     setting.debug && console.log('concated audios');
                     const buf = fs.readFileSync(tempComcatPath);
-                    paths.push(tempComcatPath);
+                    // paths.push(tempComcatPath)
                     Promise.all(paths.map((path) => {
                         cacheDelete(path, setting.debug);
                     })).then(() => {

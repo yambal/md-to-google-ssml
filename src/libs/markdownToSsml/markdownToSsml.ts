@@ -13,7 +13,7 @@ export interface iMarkdownToSsmlOptions {
 export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOptions): string[] => {
   const defaultOptions = {
     debug: false,
-    split: true,
+    split: true
   }
   const setting = Object.assign(defaultOptions, options)
 
@@ -22,7 +22,7 @@ export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOption
   // Markdown を分割する
   let splitMarkdowns = [markdown]
   if (setting.split) {
-    const temporary = markdown.replace(/^#/mg, '{{split}}#')
+    const temporary = markdown.replace(/^#{1,3}\s/mg, '{{split}}# ')
     splitMarkdowns = temporary.split(`{{split}}`).filter(
       splitMarkdown => {
         return splitMarkdown.replace(/[\r\n\s　]/, '').length !== 0

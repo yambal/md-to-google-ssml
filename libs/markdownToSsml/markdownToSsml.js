@@ -4,14 +4,14 @@ const ssmlMarked_1 = require("./ssmlMarked");
 exports.markdownToSsml = (markdown, options) => {
     const defaultOptions = {
         debug: false,
-        split: true,
+        split: true
     };
     const setting = Object.assign(defaultOptions, options);
     const parser = ssmlMarked_1.ssmlMarked();
     // Markdown を分割する
     let splitMarkdowns = [markdown];
     if (setting.split) {
-        const temporary = markdown.replace(/^#/mg, '{{split}}#');
+        const temporary = markdown.replace(/^#{1,3}\s/mg, '{{split}}# ');
         splitMarkdowns = temporary.split(`{{split}}`).filter(splitMarkdown => {
             return splitMarkdown.replace(/[\r\n\s　]/, '').length !== 0;
         });

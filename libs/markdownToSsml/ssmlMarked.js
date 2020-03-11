@@ -8,7 +8,9 @@ const pretty_data_1 = __importDefault(require("pretty-data"));
 const theme_1 = require("../theme");
 exports.ssmlMarked = (options) => {
     const defaultOptions = {
-        themeName: 'default'
+        themeName: 'default',
+        paragraphBreak: '1.5s',
+        brBreak: '0.75s'
     };
     const setting = Object.assign(defaultOptions, options);
     const ssmlRenderer = new marked_1.default.Renderer();
@@ -30,10 +32,10 @@ exports.ssmlMarked = (options) => {
     };
     // BGM =============================================
     // 
-    const getBgmStartElm = (elementName) => {
+    const getBgmStartElm = (elementName, isRandom) => {
         const closer = getBgmEndElm();
         boxElementId = makeId(4, ssmlIndex);
-        bgmAudio = getElementAudio(elementName);
+        bgmAudio = getElementAudio(elementName, isRandom);
         return `${closer}<par><media xml:id="${boxElementId}" begin="${bgmAudio.begin}">`;
     };
     const getBgmEndElm = () => {
@@ -64,20 +66,28 @@ exports.ssmlMarked = (options) => {
     };
     // block =============================================
     ssmlRenderer.heading = (text, leval, raw, slugger) => {
-        return `${getBgmStartElm('heading')}<p>${text}</p>${getBgmEndElm()}`;
+        if (leval <= 3) {
+            return `${getBgmStartElm('heading')}<p>${text}</p>${getBgmEndElm()}`;
+        }
+        const id = makeId(4);
+        const audio = getElementAudio('heading');
+        return `<par>`
+            + `<media xml:id="${id}" begin="${audio.begin}"><p>${text}</p></media>`
+            + `<media end="${id}.end${audio.end}" fadeOutDur="${audio.fadeOut}" repeatCount="${audio.loop ? '99' : '1'}" soundLevel="${audio.soundLevel}">`
+            + `<audio src="${audio.url}" /></media>`
+            + `</par>`;
     };
     ssmlRenderer.blockquote = (text) => {
-        return `${getBgmStartElm('blockquote')}<p>${text}</p>${getBgmEndElm()}`;
+        return `${getBgmStartElm('blockquote', true)}<p>${text}</p>${getBgmEndElm()}`;
     };
     // P
     ssmlRenderer.paragraph = (text) => {
         // BGM が設定されていなければ BGM を開始する
         // BGM が設定されていれば何も（閉じも）しない
-        return `${getBgmStartElmIfNoBgm('paragraph')}<p><s>${text}</s></p>`;
+        return `${getBgmStartElmIfNoBgm('paragraph')}<p><s>${text}</s></p><break time="${setting.paragraphBreak}"/>`;
     };
     ssmlRenderer.hr = () => {
         const audio = getElementAudio('hr');
-        //const bgmCloser = getBgmEndElm()
         boxElementId = makeId(4, ssmlIndex);
         const ssml = ``
             + `<par>`
@@ -86,10 +96,24 @@ exports.ssmlMarked = (options) => {
             + `</par>`;
         return ssml;
     };
+    ssmlRenderer.list = function (body, ordered, start) {
+        return `${body}`;
+    };
+    // LI
+    ssmlRenderer.listitem = function (text) {
+        const id = makeId(4);
+        const audio = getElementAudio('listitem');
+        const ssml = ``
+            + `<par>`
+            + `<media xml:id="${id}" begin="${audio.begin}">${text}<break time="2s"/></media>`
+            + `<media><audio src="${audio.url}" /></media>`
+            + `</par>`;
+        return ssml;
+    };
     // inline =============================================
     // BR
     ssmlRenderer.br = function () {
-        return '</s><s>';
+        return `</s><break time="${setting.brBreak}"/><s>`;
     };
     // LINK
     ssmlRenderer.link = function (href, title, text) {

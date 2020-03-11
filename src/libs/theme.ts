@@ -69,34 +69,34 @@ const buildinTheme:iThemes  = {
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/MChinematic-P-M-01.mp3',
           begin: '4s',
-          end: '+3s',
+          end: '+5s',
           fadeOut: '3s',
           loop: true,
-          soundLevel : '+0dB'
+          soundLevel : '-10dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/MChinematic-P-M-02.mp3',
           begin: '4s',
-          end: '+3s',
+          end: '+5s',
           fadeOut: '3s',
           loop: true,
-          soundLevel : '+0dB'
+          soundLevel : '-10dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/MChinematic-P-M-03.mp3',
           begin: '4s',
-          end: '+3s',
+          end: '+5s',
           fadeOut: '3s',
           loop: true,
-          soundLevel : '+0dB'
+          soundLevel : '-10dB'
         },
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/MChinematic-P-M-04.mp3',
           begin: '4s',
-          end: '+3s',
+          end: '+5s',
           fadeOut: '3s',
           loop: true,
-          soundLevel : '+0dB'
+          soundLevel : '-10dB'
         }
       ]
     },
@@ -154,6 +154,18 @@ const buildinTheme:iThemes  = {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/WClick-01.mp3',
           begin: '1s',
           end: '+3s',
+          fadeOut: '0s',
+          loop: false,
+          soundLevel : '+0dB'
+        }
+      ]
+    },
+    listitem: {
+      audios: [
+        {
+          url: 'https://yambal.github.io/md-to-google-ssml/audio/ListItem-01.mp3',
+          begin: '1s',
+          end: '',
           fadeOut: '0s',
           loop: false,
           soundLevel : '+0dB'
