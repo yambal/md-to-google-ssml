@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("./index");
-index_1.mdToMp3(`
+const testMarkdown = `
 はじめまして
 
 # Header1
@@ -42,7 +42,8 @@ efgh
 
 このレベル以下は、ＢＧＭを変えたくない
 
-`, {
+`;
+index_1.mdToMp3(testMarkdown, {
     projectId: 'texttospeach-261314',
     keyFileName: 'TextToSpeach-e373fcafd2ef.json',
     debug: true,
@@ -54,4 +55,5 @@ efgh
     closing: 'しめくくり'
 }).then((audio) => {
     console.log('result', audio);
+    console.log('about', index_1.getAbout(testMarkdown));
 });

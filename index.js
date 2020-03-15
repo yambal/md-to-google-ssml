@@ -79,3 +79,6 @@ exports.mdToMp3 = (markdown, option) => {
         });
     });
 };
+exports.getAbout = (ssml) => {
+    return markdownToSsml_1.getHeadersAndLinks(ssml);
+};

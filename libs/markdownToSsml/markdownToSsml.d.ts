@@ -1,3 +1,4 @@
+import { iGetAboutResponse } from './ssmlMarked';
 export interface iMarkdownToSsmlOptions {
     debug?: boolean;
     split?: boolean;
@@ -9,3 +10,4 @@ export interface iMarkdownToSsmlOptions {
     closing?: string;
 }
 export declare const markdownToSsml: (markdown: string, options?: iMarkdownToSsmlOptions | undefined) => string[];
+export declare const getHeadersAndLinks: (markdown: string) => iGetAboutResponse;

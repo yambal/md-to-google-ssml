@@ -1,5 +1,5 @@
 import marked from 'marked'
-import { ssmlMarked } from './ssmlMarked'
+import { ssmlMarked, getAbout, iGetAboutResponse } from './ssmlMarked'
 
 export interface iMarkdownToSsmlOptions {
   debug?: boolean
@@ -49,4 +49,8 @@ export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOption
   setting.debug && console.log('debug 36', splitSsml)
 
   return splitSsml
+}
+
+export const getHeadersAndLinks = (markdown: string): iGetAboutResponse => {
+  return getAbout(markdown)
 }

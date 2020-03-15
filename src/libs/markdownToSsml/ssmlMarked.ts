@@ -283,3 +283,43 @@ export const ssmlMarked = (options? :iSsmlMarked): iSsmlMarkedMethod => {
     }
   }
 }
+
+
+export interface iGetAboutResponse {
+  headers: {
+    text: string
+    level: number
+  }[]
+  links: {
+    text: string
+    href: string
+  }[]
+}
+
+export const getAbout = (markdown: string): iGetAboutResponse => {
+  const renderer = new marked.Renderer();
+
+  let res: iGetAboutResponse = {
+    headers: [],
+    links: []
+  }
+
+  renderer.heading = (text: string, level: number, raw: string, slugger: Slugger) => {
+    res.headers.push({
+      text,
+      level
+    })
+    return ''
+  }
+
+  renderer.link = function (href: string, title: string, text: string) {
+    res.links.push({
+      text,
+      href
+    })
+    return ''
+  }
+
+  marked(markdown, { renderer: renderer })
+  return res
+}

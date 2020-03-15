@@ -28,3 +28,6 @@ exports.markdownToSsml = (markdown, options) => {
     setting.debug && console.log('debug 36', splitSsml);
     return splitSsml;
 };
+exports.getHeadersAndLinks = (markdown) => {
+    return ssmlMarked_1.getAbout(markdown);
+};

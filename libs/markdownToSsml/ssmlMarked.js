@@ -229,3 +229,26 @@ exports.ssmlMarked = (options) => {
         }
     };
 };
+exports.getAbout = (markdown) => {
+    const renderer = new marked_1.default.Renderer();
+    let res = {
+        headers: [],
+        links: []
+    };
+    renderer.heading = (text, level, raw, slugger) => {
+        res.headers.push({
+            text,
+            level
+        });
+        return '';
+    };
+    renderer.link = function (href, title, text) {
+        res.links.push({
+            text,
+            href
+        });
+        return '';
+    };
+    marked_1.default(markdown, { renderer: renderer });
+    return res;
+};

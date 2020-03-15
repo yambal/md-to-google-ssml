@@ -13,4 +13,15 @@ interface iSsmlMarkedMethod {
     buildFooter: (Conclusion?: string, closing?: string) => string | null;
 }
 export declare const ssmlMarked: (options?: iSsmlMarked | undefined) => iSsmlMarkedMethod;
+export interface iGetAboutResponse {
+    headers: {
+        text: string;
+        level: number;
+    }[];
+    links: {
+        text: string;
+        href: string;
+    }[];
+}
+export declare const getAbout: (markdown: string) => iGetAboutResponse;
 export {};

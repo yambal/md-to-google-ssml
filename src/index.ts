@@ -1,4 +1,5 @@
-import { markdownToSsml, iMarkdownToSsmlOptions } from './libs/markdownToSsml/markdownToSsml'
+import { markdownToSsml, iMarkdownToSsmlOptions, getHeadersAndLinks} from './libs/markdownToSsml/markdownToSsml'
+import { iGetAboutResponse } from './libs/markdownToSsml/ssmlMarked'
 import { googleTextToSpeech } from './libs/googleTextToSpeech'
 import * as ID3 from 'id3-parser'
 import * as mm from 'music-metadata'
@@ -99,4 +100,10 @@ export const mdToMp3 = (markdown: string, option: iMdToMp3) => {
         }
       )
   })
+}
+
+interface iAbout extends iGetAboutResponse{}
+
+export const getAbout = (ssml: string): iGetAboutResponse => {
+  return getHeadersAndLinks(ssml)
 }

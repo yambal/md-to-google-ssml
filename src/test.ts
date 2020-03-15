@@ -1,6 +1,6 @@
-import { mdToMp3 } from './index'
+import { mdToMp3, getAbout } from './index'
 
-mdToMp3(`
+const testMarkdown = `
 はじめまして
 
 # Header1
@@ -41,7 +41,9 @@ efgh
 
 このレベル以下は、ＢＧＭを変えたくない
 
-`, {
+`
+
+mdToMp3(testMarkdown, {
   projectId: 'texttospeach-261314',
   keyFileName: 'TextToSpeach-e373fcafd2ef.json',
   debug:true,
@@ -54,5 +56,6 @@ efgh
 }).then(
   (audio) => {
     console.log('result', audio)
+    console.log('about', getAbout(testMarkdown))
   }
 )
