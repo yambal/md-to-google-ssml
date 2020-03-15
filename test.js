@@ -49,7 +49,9 @@ efgh
     title: 'タイトル',
     description: '注釈',
     subTitle: 'サブ タイトル',
-    subDescription: 'サブ 注釈'
+    subDescription: 'サブ 注釈',
+    conclusion: 'まとめ',
+    closing: 'しめくくり'
 }).then((audio) => {
     console.log('result', audio);
 });

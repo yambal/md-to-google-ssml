@@ -200,6 +200,32 @@ exports.ssmlMarked = (options) => {
                 return ssml;
             }
             return null;
+        },
+        buildFooter: (conclusion, closing) => {
+            if (conclusion || closing) {
+                boxElementId = makeId(4, ssmlIndex);
+                const audio = getElementAudio('closing', true);
+                const hasConclusion = conclusion && conclusion.length !== 0;
+                const hasClosing = closing && closing.length !== 0;
+                let ssml = `<speak>`
+                    + `<par>`
+                    + `<media xml:id="${boxElementId}" begin="${audio.begin}">`;
+                if (hasConclusion) {
+                    ssml += `<p>${conclusion}</p>`;
+                }
+                if (hasConclusion && hasClosing) {
+                    ssml += `<break time="2s"/>`;
+                }
+                if (hasClosing) {
+                    ssml += `<p>${closing}</p>`;
+                }
+                ssml += `</media>`;
+                ssml += `<media end="${boxElementId}.end${audio.end}" fadeOutDur="${audio.fadeOut}" soundLevel="${audio.soundLevel}"><audio src="${audio.url}" /></media>`
+                    + `</par>`
+                    + `</speak>`;
+                return ssml;
+            }
+            return null;
         }
     };
 };

@@ -7,7 +7,9 @@ export interface iMarkdownToSsmlOptions {
   title?: string
   description?: string
   subTitle?: string
-  subDescription?: string
+  subDescription?: string,
+  conclusion?: string,
+  closing?: string
 }
 
 export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOptions): string[] => {
@@ -40,6 +42,9 @@ export const markdownToSsml = (markdown: string, options?: iMarkdownToSsmlOption
 
   const headerSsml = parser.buildHeader(setting.title, setting.description, setting.subTitle, setting.subDescription)
   headerSsml && splitSsml.unshift(headerSsml)
+
+  const footerSsml = parser.buildFooter(setting.conclusion, setting.closing)
+  footerSsml && splitSsml.push(footerSsml)
 
   setting.debug && console.log('debug 36', splitSsml)
 

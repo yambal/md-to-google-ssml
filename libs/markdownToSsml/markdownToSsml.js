@@ -23,6 +23,8 @@ exports.markdownToSsml = (markdown, options) => {
     });
     const headerSsml = parser.buildHeader(setting.title, setting.description, setting.subTitle, setting.subDescription);
     headerSsml && splitSsml.unshift(headerSsml);
+    const footerSsml = parser.buildFooter(setting.conclusion, setting.closing);
+    footerSsml && splitSsml.push(footerSsml);
     setting.debug && console.log('debug 36', splitSsml);
     return splitSsml;
 };

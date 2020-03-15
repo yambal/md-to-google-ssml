@@ -38,6 +38,42 @@ const buildinTheme = {
                 }
             ]
         },
+        closing: {
+            audios: [
+                {
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-01.mp3',
+                    begin: '8s',
+                    end: '+8s',
+                    fadeOut: '3s',
+                    loop: true,
+                    soundLevel: '+0dB'
+                },
+                {
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-02.mp3',
+                    begin: '4s',
+                    end: '+3s',
+                    fadeOut: '3s',
+                    loop: true,
+                    soundLevel: '+0dB'
+                },
+                {
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-03.mp3',
+                    begin: '4s',
+                    end: '+3s',
+                    fadeOut: '3s',
+                    loop: true,
+                    soundLevel: '+0dB'
+                },
+                {
+                    url: 'https://yambal.github.io/md-to-google-ssml/audio/Electronic-G-M-04.mp3',
+                    begin: '4s',
+                    end: '+3s',
+                    fadeOut: '3s',
+                    loop: true,
+                    soundLevel: '+0dB'
+                }
+            ]
+        },
         heading: {
             audios: [
                 {
@@ -150,7 +186,7 @@ const buildinTheme = {
             audios: [
                 {
                     url: 'https://yambal.github.io/md-to-google-ssml/audio/ListItem-01.mp3',
-                    begin: '1s',
+                    begin: '0.5s',
                     end: '',
                     fadeOut: '0s',
                     loop: false,

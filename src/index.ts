@@ -79,7 +79,7 @@ export const mdToMp3 = (markdown: string, option: iMdToMp3) => {
                 .on('end', () => {
                   setting.debug && console.log('concated audios')
                   const buf = fs.readFileSync(tempComcatPath)
-                  // paths.push(tempComcatPath)
+                  paths.push(tempComcatPath)
                   Promise.all(
                     paths.map(
                       (path) => {
