@@ -107,3 +107,16 @@ interface iAbout extends iGetAboutResponse{}
 export const getAbout = (ssml: string): iGetAboutResponse => {
   return getHeadersAndLinks(ssml)
 }
+
+export const getSsmLMaxLength = (markdown: string, option: iMdToMp3) => {
+  let max = 0
+  const ssmls = markdownToSsml(markdown, option)
+  ssmls.forEach(
+    ssml => {
+      if (max <= ssml.length) {
+        max = ssml.length
+      }
+    }
+  )
+  return max
+}

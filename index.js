@@ -82,3 +82,13 @@ exports.mdToMp3 = (markdown, option) => {
 exports.getAbout = (ssml) => {
     return markdownToSsml_1.getHeadersAndLinks(ssml);
 };
+exports.getSsmLMaxLength = (markdown, option) => {
+    let max = 0;
+    const ssmls = markdownToSsml_1.markdownToSsml(markdown, option);
+    ssmls.forEach(ssml => {
+        if (max <= ssml.length) {
+            max = ssml.length;
+        }
+    });
+    return max;
+};

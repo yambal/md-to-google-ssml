@@ -8,4 +8,5 @@ interface iMdToMp3 extends iMarkdownToSsmlOptions {
 }
 export declare const mdToMp3: (markdown: string, option: iMdToMp3) => Promise<Buffer>;
 export declare const getAbout: (ssml: string) => iGetAboutResponse;
+export declare const getSsmLMaxLength: (markdown: string, option: iMdToMp3) => number;
 export {};
