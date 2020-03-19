@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("./index");
+const utility_1 = require("./utility");
 const testMarkdown = `
 はじめまして
 
@@ -57,7 +58,7 @@ index_1.mdToMp3(testMarkdown, {
     console.log('result', audio);
     console.log('about', index_1.getAbout(testMarkdown));
 });
-console.log('length', index_1.getSsmLMaxLength(testMarkdown, {
+console.log('length', utility_1.getSsmLMaxLength(testMarkdown, {
     projectId: 'texttospeach-261314',
     keyFileName: 'TextToSpeach-e373fcafd2ef.json',
     debug: true,

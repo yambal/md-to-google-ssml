@@ -1,4 +1,5 @@
-import { mdToMp3, getAbout, getSsmLMaxLength } from './index'
+import { mdToMp3, getAbout } from './index'
+import { getSsmLMaxLength } from './utility'
 
 const testMarkdown = `
 はじめまして

@@ -7,15 +7,12 @@ import * as fs from 'fs'
 import * as util from 'util'
 import { mkdirpThen } from './libs/mkdirp-then'
 import { v4 as uuidv4 } from 'uuid';
+import { iMdToMp3 } from './interface';
 
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const FfmpegCommand = require('fluent-ffmpeg');
 
-interface iMdToMp3 extends iMarkdownToSsmlOptions {
-  projectId: string
-  keyFileName: string
-  tempDir?: string
-}
+
 
 const cacheSave = (audio:Buffer, dir:string) => {
   return new Promise( (resolve: (path: string) => void, reject: (err: any) => void) => {
@@ -108,15 +105,3 @@ export const getAbout = (ssml: string): iGetAboutResponse => {
   return getHeadersAndLinks(ssml)
 }
 
-export const getSsmLMaxLength = (markdown: string, option: iMdToMp3) => {
-  let max = 0
-  const ssmls = markdownToSsml(markdown, option)
-  ssmls.forEach(
-    ssml => {
-      if (max <= ssml.length) {
-        max = ssml.length
-      }
-    }
-  )
-  return max
-}

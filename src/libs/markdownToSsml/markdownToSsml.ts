@@ -1,4 +1,3 @@
-import marked from 'marked'
 import { ssmlMarked, getAbout, iGetAboutResponse } from './ssmlMarked'
 
 export interface iMarkdownToSsmlOptions {
