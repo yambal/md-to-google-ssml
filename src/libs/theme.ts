@@ -189,7 +189,7 @@ const buildinTheme:iThemes  = {
         {
           url: 'https://yambal.github.io/md-to-google-ssml/audio/WClick-01.mp3',
           begin: '1s',
-          end: '+3s',
+          end: '+0s',
           fadeOut: '0s',
           loop: false,
           soundLevel : '+0dB'
