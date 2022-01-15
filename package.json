@@ -25,7 +25,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "iconv-lite": "^0.5.1",
     "id3-parser": "^2.0.0",
-    "marked": "^0.8.0",
+    "marked": "^4.0.10",
     "mkdirp": "^1.0.3",
     "music-metadata": "^6.3.4",
     "pretty-data": "^0.40.0",
